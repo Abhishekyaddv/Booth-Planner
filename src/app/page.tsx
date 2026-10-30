@@ -1,69 +1,73 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="flex flex-1 flex-col">
+      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6">
+        <div className="flex items-center gap-2 text-sm font-semibold tracking-tight">
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-accent text-white">M</span>
+          Messe India <span className="font-normal text-stone-500">Booth Planner</span>
+        </div>
+        <Link href="/planner" className="text-sm font-medium text-stone-600 hover:text-stone-900">
+          Open planner →
+        </Link>
+      </header>
+
+      <section className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-12 px-6 pb-16 md:grid-cols-2">
+        <div>
+          <p className="mb-4 inline-block rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">
+            Shell scheme · Corner · Island booths
           </p>
+          <h1 className="text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl">
+            Design your exhibition booth in minutes
+          </h1>
+          <p className="mt-5 max-w-md text-lg leading-relaxed text-stone-600">
+            Pick your booth size, place counters, seating and screens on a floor plan, and walk
+            around the result in 3D before anything gets built.
+          </p>
+          <div className="mt-8 flex items-center gap-4">
+            <Link
+              href="/planner"
+              className="rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-accent-hover"
+            >
+              Start designing
+            </Link>
+            <span className="text-sm text-stone-500">No sign-up. Saved in your browser.</span>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+        <FloorPlanIllustration />
+      </section>
+    </main>
+  );
+}
+
+function FloorPlanIllustration() {
+  const grid = Array.from({ length: 13 }, (_, i) => i * 30);
+  return (
+    <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+      <svg viewBox="0 0 360 240" className="h-auto w-full" aria-hidden>
+        {grid.map((x) => (
+          <line key={`v${x}`} x1={x} y1={0} x2={x} y2={240} stroke="#f0efed" />
+        ))}
+        {grid.slice(0, 9).map((y) => (
+          <line key={`h${y}`} x1={0} y1={y} x2={360} y2={y} stroke="#f0efed" />
+        ))}
+        <rect x={30} y={30} width={300} height={180} fill="#fafaf9" />
+        <path d="M30 210 V30 H330" fill="none" stroke="#44403c" strokeWidth={3} />
+        <path d="M30 210 H330 V30" fill="none" stroke="#a8a29e" strokeWidth={2} strokeDasharray="6 5" />
+        <rect x={45} y={40} width={70} height={60} rx={2} fill="#e7e5e4" stroke="#78716c" />
+        <rect x={140} y={38} width={90} height={22} rx={2} fill="#fde9d6" stroke="#c2763a" />
+        <rect x={160} y={140} width={80} height={30} rx={2} fill="#dbeafe" stroke="#2563eb" strokeWidth={2} />
+        <rect x={60} y={130} width={60} height={34} rx={2} fill="#fde9d6" stroke="#c2763a" />
+        {[70, 100].map((x) => (
+          <rect key={x} x={x} y={118} width={14} height={10} rx={2} fill="#fecaca" stroke="#dc2626" />
+        ))}
+        <circle cx={300} cy={180} r={12} fill="#d1fae5" stroke="#059669" />
+        <text x={180} y={228} textAnchor="middle" fontSize={11} fill="#78716c">
+          6.0 m
+        </text>
+      </svg>
     </div>
   );
 }
